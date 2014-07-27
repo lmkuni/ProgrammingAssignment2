@@ -27,14 +27,20 @@ makeCacheMatrix <- function(x = matrix()) {
 ##is made and returned.
 
 
-cacheSolve <- function(x, ...) {
+cacheSolve <- function(x=matrix(), ...) {
 ## Return a matrix that is the inverse of 'x'
-          
+  
+  ##Inv will be a matrix with one row and one column containing 'NA' if the inverse of x 
+  ##has not previously been computed; otherwise, it will have a numerical value in the top left 
+  ##corner. Testing for an 'NA' in the [1,1] position will indicate whether to go to the cached 
+  ##value or to compute.
   Inv <- x$getInv()
   if (!is.na(Inv[1,1])) {
     message("getting cached data")
     return(Inv)
+    ##stop and return the value of the inverse from cache
   }
+  ##retrieve the matrix and solve for the inverse since the condition of the above if was not met
   M <- x$get()
   Inv <- solve(M)
   x$setInv(Inv)
